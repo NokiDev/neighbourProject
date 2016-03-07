@@ -4,5 +4,8 @@ Cours Node : https://github.com/NideXTC/CoursYNov/tree/master/NodeJS
 
 ### Installation : 
   installer node.js
-  lancer la commande npm install pour installer les modules et dépendances du projet
-  -npm install
+[Node.js 4.3.2](https://nodejs.org/en/)
+  lancer la commande (installe les dépendances via npm)
+  '''shell
+$ sudo  npm install
+'''
