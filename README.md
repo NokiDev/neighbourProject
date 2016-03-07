@@ -1,6 +1,6 @@
 # neighbourProject
 
--  Cours Node : https://github.com/NideXTC/CoursYNov/tree/master/NodeJS
+-  [Cours Node] (https://github.com/NideXTC/CoursYNov/tree/master/NodeJS)
 -  Projet Exemple (Bataille navale en réseau)
 
 ### Installation : 
