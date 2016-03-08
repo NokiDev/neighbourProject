@@ -1,4 +1,10 @@
-# neighbourProject
+# NeighbourProject
+
+### Description : 
+
+Projet effectué dans le cadre de projets en mode entreprise, à l'école INGESUP PARIS.
+
+### Documentation :
 
 -  [Cours Node] (https://github.com/NideXTC/CoursYNov/tree/master/NodeJS)
 -  [Projet Exemple] (https://github.com/LeoAttn/NodeJS-Games) Bataille navale en réseau
