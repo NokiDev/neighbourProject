@@ -37,6 +37,12 @@ $ npm start
 | email | String | |
 | password | String | |
 | address | String | |
+| city | String | |
+| region | String | |
+| country | String | |
+| postalCode | String | |
+| lattitude | Number | Lattitude Coord for locaton detection |
+| longitude | Number |  Longitude Coord for location detection |
 | birthDate | Date | |
 | avatarLink | String | |
 | available | Boolean | |
