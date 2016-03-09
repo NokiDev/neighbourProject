@@ -204,7 +204,7 @@ var Profiles = {
     register: function (req, res) {
         if (req.method == "GET") {
             ///Display register form
-            res.render('register', {title: "Register"});
+            res.render('register', {title: "Register", values:{last_name :"", first_name:"", email:"", address:"", city:"", postalCode:""}});
         }
         else if (req.method == "POST") {
             ///API KEY :  AIzaSyBh-ZMhtx_g97Xs2ZLBryqd8ldApqo_veI
@@ -223,11 +223,12 @@ var Profiles = {
             var callback = function (response) {
                 response.setEncoding('utf8');
                 response.on('data', function (chunk) {
+                    console.log(chunk);
                     datas += chunk;
                 });
                 response.on('end', function () {
                     datas = JSON.parse(datas);
-                    if (datas.status == "INVALID_REQUEST") {
+                    if (datas.status != "OK") {
                         errors.location = "Your location doesn't exist";
                     }
                     if (req.body.password === undefined || req.body.passwordConfirm === undefined) {
