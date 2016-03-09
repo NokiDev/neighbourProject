@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    form(method="POST" action="/register")
+        input(type='hidden', name='_csrf', value=_csrf)
+        input(type="text" name="last_name" placeholder="First name")
+        input(type="text" name="first_name" placeholder="Last name")
+        input(type="email" name="email" placeholder="Email address")
+        input(type="password" name="password" placeholder="Password")
+        input(type="password" name="passwordConfirm" placeholder="Confirm Password")
+        input(type="text" name="address" placeholder="Address")
+        input(type="text" name="city" placeholder="City")
+        input(type="text" name="postalCode" placeholder="postalCode")
+        button(type="submit") Submit
