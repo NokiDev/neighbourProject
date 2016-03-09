@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
 
 var schema = new Schema({
     description : { type : String, required : true},
-    user :  {type: mongoose.Schema.Types.ObjectId, ref: 'Profile'},
+    user :  {type: Schema.Types.ObjectId, ref: 'Profile'},
     lattitude : {type : Number, required : true},
     longitude : {type : Number, required : true},
     date : {type : Date, required : true},

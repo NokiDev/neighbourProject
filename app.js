@@ -3,7 +3,9 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
+var MongoStore = require('connect-mongo')(expressSession);
 var csrf = require('csurf');
 
 var mongoose = require('mongoose');
@@ -18,47 +20,57 @@ var app = express();
 app.set('views', path.join(__dirname, 'App/views'));
 app.set('view engine', 'jade');
 
+app.use(logger('dev'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(cookieParser("ingesup"));
+
+// Connection a la base mongoDb
+mongoose.connect('mongodb://localhost/neighbourDatas', function (err) {
+    if (err)
+        throw err;
+});
+
 app.use(expressSession({
     secret: "ingesup",
-    cookie:{
-        httpOnly:true,
-        secure:true
-    },
     resave : false,
-    saveUninitialized : true
+    saveUninitialized : true,
+    store : new MongoStore({mongooseConnection : mongoose.connection})
 }));
-app.use(csrf());
 
 app.use(require('less-middleware')(path.join(__dirname, 'public')));
+
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({extended: false}));
+/*app.use(csrf());
+*/
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
     var isAuthenticated = req.session.isAuthenticated;
+    var sess = JSON.stringify(req.session);
+    console.log("SESSION : " + sess);
     if (!isAuthenticated) {
         isAuthenticated = req.session.isAuthenticated = false;
     }
-    res.locals._csrf = req.csrfToken();
+    //res.locals._csrf = req.csrfToken();
     next();
 });
 
-
 app.use('/', routes);
 app.use('/profile', profiles);
+
 app.use('/request', requests);
 
 
 // error handler
-app.use(function (err, req, res, next) {
+/*app.use(function (err, req, res, next) {
     if (err.code !== 'EBADCSRFTOKEN') return next(err);
     // handle CSRF token errors here
     res.status(403);
     res.send('form tampered with')
-});
+});*/
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -90,12 +102,5 @@ app.use(function (err, req, res, next) {
         error: {}
     });
 });
-
-// Connection a la base mongoDb
-mongoose.connect('mongodb://localhost/neighbourDatas', function (err) {
-    if (err)
-        throw err;
-});
-
 
 module.exports = app;

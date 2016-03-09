@@ -12,3 +12,6 @@ block content
         input(type="text" name="city" placeholder="City")
         input(type="text" name="postalCode" placeholder="postalCode")
         button(type="submit") Submit
+        - if(errors !== undefined)
+            - for(var k in errors)
+                span=errors[k]

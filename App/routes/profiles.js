@@ -10,7 +10,7 @@ var authenticate = function(req, res, next){
         res.redirect('../');
 };
 
-router.get('/', authenticate, profile.index);
+router.get('/:id', authenticate, profile.index);
 router.post('/update', authenticate, profile.update);
 
 module.exports = router;
