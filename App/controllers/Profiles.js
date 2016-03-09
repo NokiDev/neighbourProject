@@ -1,7 +1,9 @@
 require('../models/Profile');
+require('../models/Request');
 
 var mongoose = require("mongoose"),
-    Profile = mongoose.model('Profile');
+    Profile = mongoose.model('Profile'),
+    Request = mongoose.model('Request');
 
 var http = require("https");
 
@@ -190,21 +192,126 @@ var Profiles = {
         ///Display profil page
         Profile.findOne({_id: req.params.id}, function (err, profile) {
             if (err) throw err;
-            if(!profile)
+            if (!profile)
                 res.redirect('../');
-            else
-                res.render('profile', {profile: profile});
+            else {
+                Request.find({user: req.params.id}, function (err, requests) {
+                    res.render('profile', {title: "Profile", profile: profile, requests: requests});
+                });
+            }
         });
     },
-    update: function (req, res) {
+    updateInfos: function (req, res) {
         ///Update done redirect to profil
+        Profile.findOne({_id: req.session.userId}, function (err, profile) {
+            if (profile) {
+                if (req.method == "GET") {
+                    ///Display register form
+                    res.render('update', {
+                        title: "Update",
+                        values: profile
+                    });
+                }
+                else if (req.method == "POST") {
+                    ///API KEY :  AIzaSyBh-ZMhtx_g97Xs2ZLBryqd8ldApqo_veI
+                    // Request Exemple : https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key= AIzaSyBh-ZMhtx_g97Xs2ZLBryqd8ldApqo_veI
+                    var address = req.body.address;
+                    address = removeDiacritics(address)
+                    var addressFormatedUrl = address.replace(/\s/g, "+"); //Change space into '+'
+                    var url = '/maps/api/geocode/json?address=+' + addressFormatedUrl + ',+' + req.body.city + ',+' + req.body.postalCode + '&key=AIzaSyBh-ZMhtx_g97Xs2ZLBryqd8ldApqo_veI';
+                    ////GOOGLE API REQUEST FOR CONVERT ADRESS TO LAT AND LONG
+                    var options = {
+                        host: "maps.googleapis.com",
+                        path: url
+                    };
+                    var datas = '';
+                    var errors = {};
+                    var callback = function (response) {
+                        response.setEncoding('utf8');
+                        response.on('data', function (chunk) {
+                            datas += chunk;
+                        });
+                        response.on('end', function () {
+                            datas = JSON.parse(datas);
+                            if (datas.status != "OK") {
+                                errors.location = "Your location doesn't exist";
+                            }
+                            if (req.body.password === undefined || req.body.passwordConfirm === undefined) {
+                                errors.password = "Please fill this field";
+                            }
+                            else if (req.body.password != req.body.passwordConfirm) {
+                                errors.password = "Your passwords doesn't match";
+                                req.body.password = "";
+                                req.body.passwordConfirm = "";
+                            }
+                            var regexEmail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+                            if (req.body.email !== undefined) {
+                                if (regexEmail.test(req.body.email)) {
+                                    //FIXME Need a Promise here
+                                    Profile.findOne({'email': req.body.email}, function (err, user) {
+                                        if (err) throw err;
+                                        if (user)
+                                            errors.email = "Emails unavailable";
+                                    });
+                                }
+                                else {
+                                    errors.email = "Email's format non valid"
+                                    req.body.email = "";
+                                }
+                            }
+                            else {
+                                errors.mail = "Please fill this field"
+                            }
+                            if (req.body.last_name === undefined) {
+                                errors.last_name = "Please fill this field"
+                            }
+                            if (req.body.first_name === undefined) {
+                                errors.first_name = "Please fill this field"
+                            }
+                            if (Object.keys(errors).length > 0) {
+                                res.render('update', {values: profile, errors: errors})
+                            }
+                            else {
+                                var location = datas.results[0].geometry.location;
+                                var addressComponents = datas.results[0].address_components;
+                                profile.first_name = req.body.first_name;
+                                profile.first_name = req.body.last_name;
+                                profile.email = req.body.email;
+                                profile.password = req.body.password;
+                                profile.address = req.body.address;
+                                profile.city = req.body.city;
+                                profile.region = req.body.region;
+                                profile.country = req.body.country;
+                                profile.postalCode = req.body.postalCode;
 
-        res.redirect('/')
+                                profile.save(function (err) {
+                                    if (err) throw err;
+                                    res.redirect('/profile/' + profile._id);
+                                });
+                            }
+                        });
+                    };
+                    http.request(options, callback).on("error", function (err) {
+                        console.log(err.message)
+                    }).end();
+                }
+            }
+        });
+    },
+    updateAvailable: function (req, res) {
+        Profile.findOne({_id: req.session.userId}, function (err, profile) {
+            if (profile) {
+                profile.available = req.body.available == "on";
+            }
+        });
     },
     register: function (req, res) {
         if (req.method == "GET") {
             ///Display register form
-            res.render('register', {title: "Register", values:{last_name :"", first_name:"", email:"", address:"", city:"", postalCode:""}});
+            res.render('register', {
+                title: "Register",
+                values: {last_name: "", first_name: "", email: "", address: "", city: "", postalCode: ""}
+            });
         }
         else if (req.method == "POST") {
             ///API KEY :  AIzaSyBh-ZMhtx_g97Xs2ZLBryqd8ldApqo_veI
@@ -223,12 +330,11 @@ var Profiles = {
             var callback = function (response) {
                 response.setEncoding('utf8');
                 response.on('data', function (chunk) {
-                    console.log(chunk);
                     datas += chunk;
                 });
                 response.on('end', function () {
                     datas = JSON.parse(datas);
-                    if (datas.status != "OK") {
+                    if (datas.status != "OK" || datas.results[0].address_components[6] === undefined) {
                         errors.location = "Your location doesn't exist";
                     }
                     if (req.body.password === undefined || req.body.passwordConfirm === undefined) {
@@ -240,13 +346,44 @@ var Profiles = {
                         req.body.passwordConfirm = "";
                     }
                     var regexEmail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
+                    if (req.body.last_name === undefined) {
+                        errors.last_name = "Please fill this field"
+                    }
+                    if (req.body.first_name === undefined) {
+                        errors.first_name = "Please fill this field"
+                    }
                     if (req.body.email !== undefined) {
                         if (regexEmail.test(req.body.email)) {
-                            //FIXME Need a Promise here
+                            //FIXME CallbackHell
                             Profile.findOne({'email': req.body.email}, function (err, user) {
                                 if (err) throw err;
-                                if (user)
+                                if (user) {
                                     errors.mail = "Emails unavailable";
+                                    res.render('register', {values: req.body, errors: errors});
+                                }
+                                else {
+                                    var location = datas.results[0].geometry.location;
+                                    var addressComponents = datas.results[0].address_components;
+                                    var profile = new Profile({
+                                        first_name: req.body.first_name,
+                                        last_name: req.body.last_name,
+                                        email: req.body.email,
+                                        password: req.body.password,
+                                        address: addressComponents[0].long_name + ' ' + addressComponents[1].long_name,
+                                        city: addressComponents[3].long_name,
+                                        region: addressComponents[4].long_name,
+                                        country: addressComponents[5].long_name,
+                                        postalCode: addressComponents[6].long_name,
+                                        lattitude: location.lat,
+                                        longitude: location.lng
+                                    });
+                                    profile.save(function (err) {
+                                        if (err) throw err;
+                                        req.session.userId = profile._id;
+                                        req.session.isAuthenticated = true;
+                                        res.redirect('/profile/' + profile._id);
+                                    });
+                                }
                             });
                         }
                         else {
@@ -257,54 +394,39 @@ var Profiles = {
                     else {
                         errors.mail = "Please fill this field"
                     }
-                    if (req.body.last_name === undefined) {
-                        errors.last_name = "Please fill this field"
-                    }
-                    if (req.body.first_name === undefined) {
-                        errors.first_name = "Please fill this field"
-                    }
                     if (Object.keys(errors).length > 0) {
-                        res.render('register', {values: req.body, errors: errors})
-                    }
-                    else {
-                        var location = datas.results[0].geometry.location;
-                        var addressComponents = datas.results[0].address_components;
-                        var profile = new Profile({
-                            first_name: req.body.first_name,
-                            last_name: req.body.last_name,
-                            email: req.body.email,
-                            password: req.body.password,
-                            address: addressComponents[0].long_name + ' ' + addressComponents[1].long_name,
-                            city: addressComponents[3].long_name,
-                            region: addressComponents[4].long_name,
-                            country: addressComponents[5].long_name,
-                            postalCode: addressComponents[6].long_name,
-                            lattitude: location.lat,
-                            longitude: location.lng
-                        });
-                        profile.save(function (err) {
-                            if (err) throw err;
-                            req.session.userId = profile._id;
-                            req.session.isAuthenticated = true;
-                            res.redirect('/profile/' + profile._id);
-                        });
+                        res.render('register', {values: req.body, errors: errors});
                     }
                 });
             };
-
-            http.request(options, callback).on("error", function(err){console.log(err.message)}).end();
+            http.request(options, callback).on("error", function (err) {
+                console.log(err.message)
+            }).end();
         }
     },
     login: function (req, res) {
-        if (req.session !== undefined) {
-            ///Already Connected redirect to profil/
-            res.redirect('/profile');
-        }
+        Profile.findOne({email: req.body.email}, function (err, profile) {
+            if (err)throw err;
+            if (profile) {
+                profile.comparePassword(req.body.password, function (err, isMatch) {
+                    if (isMatch) {
+                        req.session.isAuthenticated = true;
+                        req.session.userId = profile._id;
+                        res.redirect('/profile');
+                    }
+                    else {
+                        res.redirect("/?error=nouser");
+                    }
+                });
+            }
+            else
+                res.redirect("/?error=nouser");
+        });
     },
     logout: function (req, res) {
-        if (req.session === undefined) {
-            res.redirect('/')
-        }
+        delete req.session.isAuthenticated;
+        delete req.session.userId;
+        res.redirect('/')
     }
 };
 

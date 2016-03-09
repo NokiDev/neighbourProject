@@ -4,9 +4,6 @@ var mongoose = require("mongoose"),
     Request = mongoose.model('Request');
 
 var Requests = {
-    index : function (req, res){
-        res.render('indexRequest')
-    },
     newRequest: function (req, res) {
         if(req.method == "GET"){
 
@@ -19,7 +16,13 @@ var Requests = {
         res.redirect("/");
     },
     deleteRequest: function (req, res) {
-        res.redirect("/");
+        Request.findOne({user: req.session.userId}, function (err, request) {
+            if (err)throw err;
+            if (request) {
+                delete request;
+            }
+            res.redirect('/profil/' + req.session.userId);
+        });
     }
 };
 

@@ -10,7 +10,6 @@ var authenticate = function(req, res, next){
         res.redirect('../');
 };
 
-router.get('/', request.index);
 router.post('/create-request', request.newRequest);
 router.get('/create-request', authenticate, request.newRequest);
 router.post('/update-request', authenticate, request.updateRequest);

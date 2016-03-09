@@ -11,6 +11,8 @@ var authenticate = function(req, res, next){
 };
 
 router.get('/:id', authenticate, profile.index);
-router.post('/update', authenticate, profile.update);
+router.get('/update', authenticate, profile.updateInfos);
+router.post('/update', authenticate, profile.updateInfos);
+router.post('/available', authenticate, profile.updateAvailable);
 
 module.exports = router;

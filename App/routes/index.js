@@ -1,52 +1,53 @@
 var express = require('express');
 var router = express.Router();
-
+require('../models/Profile');
+var mongoose = require("mongoose"),
+    Profile = mongoose.model('Profile');
 var profile = require('../controllers/Profiles');
 
 var http = require('https');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-    var options = {
-        host : "maps.googleapis.com",
-        path : '/maps/api/geocode/json?address=98+rue+de+la+Glaciere,+Paris,+75013&key=AIzaSyBh-ZMhtx_g97Xs2ZLBryqd8ldApqo_veI'
-    };
+router.get('/', function (req, res, next) {
+    res.render('index', {title: 'Express'});
+});
 
-    var datas = '';
-    var req = function(res) {
-
-        res.setEncoding('utf8');
-        res.on('data', function (chunk) {
-            console.log(chunk);
-            datas += chunk;
-        });
-
-        res.on('end', function(){
-            data = JSON.parse(datas);
-            var location = data.results[0].geometry.location;
-            var lattitude = location.lat;
-            var longitude = location.lng;
-
-            console.log("lattitude" + lattitude);
-            console.log("longitude : " + longitude)
-        });
-    };
-
-    http.request(options, req).end();
-
-
-    //
-// On Error
-//
-    /*
-    req.on('error', function(e)
-    {
-        console.log('\n\n==========ERROR==============')
-        console.log('problem with request: ' + e.message);
+router.get('/findNeighbours', function (req, res, next) {
+    var radius = 10;
+    Profile.findOne({_id: req.session.userId}, function (err, myProfil) {
+        if (err) throw err;
+        if (myProfil) {
+            var latmin = myProfil.lattitude - 0.01;
+            var latmax = myProfil.lattitude + 0.01;
+            var lngmin = myProfil.longitude - 0.01;
+            var lngmax = myProfil.longitude + 0.01;
+            Profile.find({
+                $and: [{
+                    _id: {$ne: req.session.userId}
+                },
+                    {
+                        $and: [{
+                            longitude: {$gte: lngmin}
+                        }, {longitude: {$lte: lngmax}}
+                        ]
+                    },
+                    {
+                        $and: [{
+                            lattitude: {$gte: latmin}
+                        },
+                            {lattitude: {$lte: latmax}}
+                        ]
+                    }]
+            }, function (err, neighbours) {
+                if (err) throw err;
+                console.log(JSON.stringify(neighbours));
+                res.render('findPeople', {title: 'Find Neighbours', neighbours: neighbours});
+            });
+        }
+        else
+            res.redirect('/');
     });
 
-    req.end();*/
-    res.render('index', {title: 'Express'});
 });
 
 router.post('/login', profile.login);
