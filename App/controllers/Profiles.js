@@ -191,14 +191,13 @@ var Profiles = {
     index: function (req, res) {
         ///Display profil page
         var id = req.session.userId;
-        if(req.params.id !== undefined)
+        if (req.params.id !== undefined)
             id = req.params.id;
-        Profile.findOne({_id: id}, "first_name last_name email address city birthDate avatarLink available note noticesNb" ,function (err, profile) {
-            if (err) throw(err);
+        Profile.findOne({_id: id}, "first_name last_name email address city birthDate avatarLink available note noticesNb", function (err, profile) {
             if (!profile)
                 res.redirect('../');
             else {
-                Request.find({user: id}, "_id description date createdOn nbPeople urgent longitude lattitude",function (err, requests) {
+                Request.find({user: id}, "_id description date createdOn nbPeople urgent longitude lattitude", function (err, requests) {
                     res.render('profile', {title: "Profile", profile: profile, requests: requests});
                 });
             }
@@ -305,8 +304,8 @@ var Profiles = {
         Profile.findOne({_id: req.session.userId}, function (err, profile) {
             if (profile) {
                 profile.available = req.body.available == "on";
-                profile.save(function(err){
-                    if(err) throw(err);
+                profile.save(function (err) {
+                    if (err) throw(err);
                     res.redirect('/');
                 })
             }
@@ -413,24 +412,32 @@ var Profiles = {
         }
     },
     login: function (req, res) {
-        Profile.findOne({email: req.body.email}, function (err, profile) {
-            if (err)throw(err);
-            if (profile) {
-                profile.comparePassword(req.body.password, function (err, isMatch) {
-                    if(err) throw(err);
-                    if (isMatch) {
-                        req.session.isAuthenticated = true;
-                        req.session.userId = profile._id;
-                        res.redirect('/profile');
-                    }
-                    else {
-                        res.redirect("/?error=nouser");
-                    }
-                });
-            }
-            else
-                res.redirect("/?error=nouser");
-        });
+        if (req.method == "GET") {
+            res.render('login', {title : "Login"});
+        }
+        else if (req.method == "POST") {
+            /*FixMe Verify post data here
+
+            */
+            Profile.findOne({email: req.body.email}, function (err, profile) {
+                if (err)throw(err);
+                if (profile) {
+                    profile.comparePassword(req.body.password, function (err, isMatch) {
+                        if (err) throw(err);
+                        if (isMatch) {
+                            req.session.isAuthenticated = true;
+                            req.session.userId = profile._id;
+                            res.redirect('/profile');
+                        }
+                        else {
+                            res.redirect("/?error=nouser");
+                        }
+                    });
+                }
+                else
+                    res.redirect("/?error=nouser");
+            });
+        }
     },
     logout: function (req, res) {
         delete req.session.isAuthenticated;
@@ -438,12 +445,11 @@ var Profiles = {
         res.redirect('/')
     },
 
-    get:function(req, res){
-        Profile.findOne({}, "_id first_name last_name email address city birthDate avatarLink available note noticesNb" ,function(err, profile){
-            if(profile)
-            {
-                var infos = {profile : profile};
-                Request.find({user : req.params.id}, "_id description date createdOn nbPeople urgent longitude lattitude" , function(err, requests){
+    get: function (req, res) {
+        Profile.findOne({}, "_id first_name last_name email address city birthDate avatarLink available note noticesNb", function (err, profile) {
+            if (profile) {
+                var infos = {profile: profile};
+                Request.find({user: req.params.id}, "_id description date createdOn nbPeople urgent longitude lattitude", function (err, requests) {
                     infos.requests = requests;
                     res.status(200).json(infos).end();
                 });
@@ -452,7 +458,7 @@ var Profiles = {
                 res.status(204).send('No content').end();
         });
     },
-    create:function(req, res){
+    create: function (req, res) {
         ///API KEY :  AIzaSyBh-ZMhtx_g97Xs2ZLBryqd8ldApqo_veI
         // Request Exemple : https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key= AIzaSyBh-ZMhtx_g97Xs2ZLBryqd8ldApqo_veI
         var address = req.body.address;
@@ -545,18 +551,18 @@ var Profiles = {
             console.log(err.message)
         }).end();
     },
-    auth:function(req, res){
-        if(req.method == "GET"){
+    auth: function (req, res) {
+        if (req.method == "GET") {
             delete req.session.isAuthenticated;
             delete req.session.userId;
             res.status(200).send("Log out done !").end();
         }
-        else if(req.method == "POST"){
+        else if (req.method == "POST") {
             Profile.findOne({email: req.body.email}, function (err, profile) {
                 if (err)throw(err);
                 if (profile) {
                     profile.comparePassword(req.body.password, function (err, isMatch) {
-                        if(err) throw(err);
+                        if (err) throw(err);
                         if (isMatch) {
                             req.session.isAuthenticated = true;
                             req.session.userId = profile._id;
@@ -572,7 +578,7 @@ var Profiles = {
             });
         }
     },
-    put:function(req, res){
+    put: function (req, res) {
 
     }
 };

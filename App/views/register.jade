@@ -1,17 +1,32 @@
 extends layout
 
+block css
+    link(href="css/signin.css" rel="stylesheet")
+
 block content
-    form(method="POST" action="/register")
+    form.form-signin(method="POST" action="/register")
+        h2(class="form-signin-heading") Inscription
+        br
         input(type='hidden', name='_csrf', value=_csrf)
-        input(type="text" name="last_name" placeholder="First name" value=values.last_name)
-        input(type="text" name="first_name" placeholder="Last name" value=values.first_name)
-        input(type="email" name="email" placeholder="Email address" value=values.email)
-        input(type="password" name="password" placeholder="Password")
-        input(type="password" name="passwordConfirm" placeholder="Confirm Password")
-        input(type="text" name="address" placeholder="Address" value=values.address)
-        input(type="text" name="city" placeholder="City" value=values.city)
-        input(type="text" name="postalCode" placeholder="postalCode" value=values.postalCode)
-        button(type="submit") Submit
+        label(for="last_name") Nom
+        input(type="text" class="form-control" id="last_name" name="last_name" placeholder="First name" value=values.last_name)
+        label(for="first_name") Prénom
+        input(type="text" class="form-control" id="first_name" name="first_name" placeholder="Last name" value=values.first_name)
+        label(for="email") Email
+        input(type="email" class="form-control" id="email" name="email" placeholder="Email address" value=values.email)
+        label(for="password") Mot de passe
+        input(type="password" class="form-control" id="password" name="password" placeholder="Password")
+        label(for="passwordConfirm") Confirmation de mot de passe
+        input(type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Confirm Password")
+        label(for="address") Adresse
+        input(type="text" class="form-control" id="address" name="address" placeholder="Address" value=values.address)
+        label(for="city") Ville
+        input(type="text" class="form-control" id="city" name="city" placeholder="City" value=values.city)
+        label(for="postalCode") Code Postal
+        input(type="text" class="form-control" id="postalCode" name="postalCode" placeholder="postalCode" value=values.postalCode)
+        br
+        button(class="btn btn-lg btn-primary btn-block" type="submit") S'inscrire
+
         - if(errors !== undefined)
             - for(var k in errors)
                 span=errors[k]

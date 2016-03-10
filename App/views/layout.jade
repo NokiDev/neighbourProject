@@ -7,9 +7,12 @@ head
   meta(name="author" content="")
   title=title
   link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous")
+  link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous")
   link(rel='stylesheet', href='/stylesheets/style.css')
   link(href="/stylesheets/navbar-fixed-top.css" rel="stylesheet")
+  link(href="/stylesheets/carousel.css" rel="stylesheet")
   link(rel='icon', href='/images/favicon.ico')
+  script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous")
   block css
 html
   body
@@ -21,7 +24,7 @@ html
             span(class="icon-bar")
             span(class="icon-bar")
             span(class="icon-bar")
-          a(class="navbar-brand" href="index.html") Move Up
+          a(class="navbar-brand" href="/") Move Up
         div(id="navbar" class="navbar-collapse collapse")
           ul(class="nav navbar-nav")
             li(class="active")
@@ -35,6 +38,7 @@ html
               a(href="/register") S'inscrire
             li
               a(href="/login") Se connecter
+
     block content
 
     block script

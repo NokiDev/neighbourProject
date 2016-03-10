@@ -54,6 +54,7 @@ router.get('/findNeighbours', function (req, res) {
 });
 
 router.post('/login', profile.login);
+router.get('/login', profile.login);
 router.post('/logout', profile.logout);
 router.get('/register', profile.register);
 router.post('/register', profile.register);
