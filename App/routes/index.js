@@ -12,19 +12,24 @@ router.get('/', function (req, res, next) {
     res.render('index', {title: 'Express'});
 });
 
-router.get('/findNeighbours', function (req, res, next) {
-    var radius = 10;
+router.get('/findNeighbours', function (req, res) {
+    var radius = 0.01;
+    if(req.params.radius !== undefined)
+        radius = req.params.radius;
     Profile.findOne({_id: req.session.userId}, function (err, myProfil) {
         if (err) throw err;
         if (myProfil) {
-            var latmin = myProfil.lattitude - 0.01;
-            var latmax = myProfil.lattitude + 0.01;
-            var lngmin = myProfil.longitude - 0.01;
-            var lngmax = myProfil.longitude + 0.01;
+            var latmin = myProfil.lattitude - radius;
+            var latmax = myProfil.lattitude + radius;
+            var lngmin = myProfil.longitude - radius;
+            var lngmax = myProfil.longitude + radius;
             Profile.find({
                 $and: [{
                     _id: {$ne: req.session.userId}
                 },
+                    {
+                        available: true
+                    },
                     {
                         $and: [{
                             longitude: {$gte: lngmin}
@@ -38,16 +43,14 @@ router.get('/findNeighbours', function (req, res, next) {
                             {lattitude: {$lte: latmax}}
                         ]
                     }]
-            }, function (err, neighbours) {
+            }, "_id last_name first_name email address avatarLink note noticesNb", function (err, neighbours) {
                 if (err) throw err;
-                console.log(JSON.stringify(neighbours));
                 res.render('findPeople', {title: 'Find Neighbours', neighbours: neighbours});
             });
         }
         else
             res.redirect('/');
     });
-
 });
 
 router.post('/login', profile.login);

@@ -4,7 +4,7 @@ var router = express.Router();
 var profile = require('../controllers/Profiles')
 
 var authenticate = function(req, res, next){
-    if(req.session !== undefined)
+    if(req.session.isAuthenticated == true)
         next();
     else
         res.redirect('../');
