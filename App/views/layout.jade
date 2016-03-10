@@ -1,10 +1,40 @@
 doctype html
+head
+  meta(charset="utf-8")
+  meta(http-equiv="X-UA-Compatible" content="IE=edge")
+  meta(name="viewport" content="width=device-width, initial-scale=1")
+  meta(name="description" content="")
+  meta(name="author" content="")
+  title=title
+  link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous")
+  link(rel='stylesheet', href='/stylesheets/style.css')
+  link(href="/stylesheets/navbar-fixed-top.css" rel="stylesheet")
+  link(rel='icon', href='/images/favicon.ico')
+  block css
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
-    block css
   body
+    nav(class="navbar navbar-default navbar-fixed-top")
+      div(class="container")
+        div(class="navbar-header")
+          button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar")
+            span(class="sr-only") Toggle navigation
+            span(class="icon-bar")
+            span(class="icon-bar")
+            span(class="icon-bar")
+          a(class="navbar-brand" href="index.html") Move Up
+        div(id="navbar" class="navbar-collapse collapse")
+          ul(class="nav navbar-nav")
+            li(class="active")
+              a(href="/") Accueil
+            li
+              a(href="#contact") Contact
+            li(class="dropdown")
+              ul(class="dropdown-menu")
+          ul(class="nav navbar-nav navbar-right")
+            li
+              a(href="/register") S'inscrire
+            li
+              a(href="/login") Se connecter
     block content
 
     block script
