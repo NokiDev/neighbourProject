@@ -11,6 +11,7 @@ var authenticate = function(req, res, next){
 };
 
 router.get('/:id', authenticate, profile.index);
+router.get('/', authenticate, profile.index);
 router.get('/update', authenticate, profile.updateInfos);
 router.post('/update', authenticate, profile.updateInfos);
 router.post('/available', authenticate, profile.updateAvailable);

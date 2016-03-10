@@ -54,6 +54,7 @@ app.use(function (req, res, next) {
     if (!isAuthenticated) {
         isAuthenticated = req.session.isAuthenticated = false;
     }
+    res.locals.session = req.session;
     //res.locals._csrf = req.csrfToken();
     next();
 });

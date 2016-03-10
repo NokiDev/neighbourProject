@@ -34,10 +34,16 @@ html
             li(class="dropdown")
               ul(class="dropdown-menu")
           ul(class="nav navbar-nav navbar-right")
-            li
-              a(href="/register") S'inscrire
-            li
-              a(href="/login") Se connecter
+            -if (session.isAuthenticated)
+              li
+                a(href="/profile/" + session.userId) Mon profil
+              li
+                a(href="/logout") Se déconnecter
+            -else
+              li
+                a(href="/register") S'inscrire
+              li
+                a(href="/login") Se connecter
 
     block content
 
