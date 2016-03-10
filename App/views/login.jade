@@ -8,8 +8,11 @@ block content
         form.form-signin(method="POST" action="/login")
             h2(class="form-signin-heading") Connexion
             br
+            if(error)
+                p=error
+                br
             label(for="inputEmail") Adresse Email
-            input(type="email" name="email" id="inputEmail" class="form-control" placeholder="Adresse Email" required autofocus)
+            input(type="email" name="email" id="inputEmail" class="form-control" placeholder="Adresse Email" value=values.email required autofocus)
             label(for="inputPassword" ) Mot de passe
             input(type="password" id="inputPassword" name="password" class="form-control" placeholder="Mot de passe" required)
             br
