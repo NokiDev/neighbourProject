@@ -8,9 +8,13 @@ block content
         form.form-signin(method="POST" action="/login")
             h2(class="form-signin-heading") Connexion
             br
-            label(for="inputEmail") Adresse Email
-            input(type="email" name="email" id="inputEmail" class="form-control" placeholder="Adresse Email" required autofocus)
-            label(for="inputPassword" ) Mot de passe
-            input(type="password" id="inputPassword" name="password" class="form-control" placeholder="Mot de passe" required)
-            br
+            label(for="inputEmail")
+                input(type="email" name="email" id="inputEmail" class="form-control" placeholder="Adresse Email" required autofocus)
+            label(for="inputPassword" )
+                input(type="password" id="inputPassword" name="password" class="form-control" placeholder="Mot de passe" required)
+            div(class="checkbox")
+                
+                label
+                    input(type="checkbox" value="remember-me") 
+                    p Se souvenir de moi
             button(class="btn btn-lg btn-primary btn-block" type="submit") Se connecter
