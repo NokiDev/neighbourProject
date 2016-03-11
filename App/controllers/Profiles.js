@@ -413,12 +413,26 @@ var Profiles = {
     },
     login: function (req, res) {
         if (req.method == "GET") {
-            res.render('login', {title : "Login"});
+            res.render('login', {title : "Login", values: {email : ""}});
         }
         else if (req.method == "POST") {
-            /*FixMe Verify post data here
-
-            */
+            error = "Email or Password not valid";
+            /*var profile = Profile.findOne({email : req.body.email})
+                .then(function(err, profile){
+                    if(profile)
+                    {
+                        profile.comparePassword(req.body.password, function(err, isMatch){
+                            if(isMatch){
+                                req.session.isAuthenticated = true;
+                                req.session.userId = profile.id;
+                                res.redirect('/profile');
+                                return;
+                            }
+                        });
+                    }
+                }).catch(console.log(error));
+            res.render("login", {title : "Login", values : {email : req.body.email}, error:error});*/
+            //FixMe callback hell
             Profile.findOne({email: req.body.email}, function (err, profile) {
                 if (err)throw(err);
                 if (profile) {
@@ -427,15 +441,16 @@ var Profiles = {
                         if (isMatch) {
                             req.session.isAuthenticated = true;
                             req.session.userId = profile._id;
-                            res.redirect('/profile');
+                            res.redirect('/profile/'+ profile._id);
                         }
                         else {
-                            res.redirect("/?error=nouser");
+                            res.render("login", {values : {mail : req.body.mail}, error:error});
                         }
                     });
                 }
-                else
-                    res.redirect("/?error=nouser");
+                else{
+                    res.render("login", {values : {mail : req.body.mail}, error:error});
+                }
             });
         }
     },

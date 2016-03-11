@@ -1,37 +1,30 @@
 extends layout
 
 block css
-<<<<<<< Updated upstream
     link(href="stylesheets/signin.css" rel="stylesheet")
-=======
-    link(href="css/style.css" rel="stylesheet")
->>>>>>> Stashed changes
-
 block content
     form.form-signin(method="POST" action="/register")
         h2(class="form-signin-heading") Inscription
         br
         input(type='hidden', name='_csrf', value=_csrf)
         label(for="last_name")
-            input(type="text" class="form-control" id="last_name" name="last_name" placeholder="Nom" value=values.last_name)
+        input(type="text" class="form-control" id="last_name" name="last_name" placeholder="Nom" value=values.last_name)
         label(for="first_name")
-            input(type="text" class="form-control" id="first_name" name="first_name" placeholder="Prénom" value=values.first_name)
-        br
+        input(type="text" class="form-control" id="first_name" name="first_name" placeholder="Prénom" value=values.first_name)
         br
         label(for="address")
-            input(type="text" class="form-control" id="address" name="address" placeholder="Adresse" value=values.address)
+        input(type="text" class="form-control" id="address" name="address" placeholder="Adresse" value=values.address)
         label(for="city")
-            input(type="text" class="form-control" id="city" name="city" placeholder="Ville" value=values.city)
+        input(type="text" class="form-control" id="city" name="city" placeholder="Ville" value=values.city)
         label(for="postalCode")
-            input(type="text" class="form-control" id="postalCode" name="postalCode" placeholder="Code Postal" value=values.postalCode)
-        br
+        input(type="text" class="form-control" id="postalCode" name="postalCode" placeholder="Code Postal" value=values.postalCode)
         br
         label(for="email")
-            input(type="email" class="form-control" id="email" name="email" placeholder="Adresse Email" value=values.email)
+        input(type="email" class="form-control" id="email" name="email" placeholder="Adresse Email" value=values.email)
         label(for="password")
-            input(type="password" class="form-control2" id="password" name="password" placeholder="Mot de passe")
+        input(type="password" class="form-control" id="password" name="password" placeholder="Mot de passe")
         label(for="passwordConfirm")
-            input(type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Confirmation de mot de passe")
+        input(type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Confirmation de mot de passe")
         br
         br
         button(class="btn btn-lg btn-primary btn-block" type="submit") S'inscrire

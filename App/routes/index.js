@@ -28,9 +28,6 @@ router.get('/findNeighbours', function (req, res) {
                     _id: {$ne: req.session.userId}
                 },
                     {
-                        available: true
-                    },
-                    {
                         $and: [{
                             longitude: {$gte: lngmin}
                         }, {longitude: {$lte: lngmax}}
