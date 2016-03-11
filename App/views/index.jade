@@ -35,34 +35,94 @@ block content
       span(class="glyphicon glyphicon-chevron-right" aria-hidden="true")
       span(class="sr-only") Next
 
+  //div(class="p1")
+    p
+      h3 Trouve des personnes sympas et efficaces
+        br
+        span C'est convivial et surtout économique
+        span(class="glyphicon glyphicon-euro")
+
+
+  //#choix_multiple
+    form#choix1(method='post', action='#')
+      p
+        label(for='pays') Je cherche quoi ?
+        br
+        select#search(name='find')
+          option(value='france') Trouver des déménageurs
+          option(value='espagne') Proposer mon aide
+    form#choix2(method='post', action='#')
+      p
+        label(for='pays') Dans quel lieu ?
+        br
+        select#pays(name='pays')
+          option(value='france') France
+          option(value='espagne') Espagne
+          option(value='italie') Italie
+          option(value='royaume-uni') Royaume-Uni
+          option(value='canada') Canada
+          option(value='etats-unis') États-Unis
+          option(value='chine') Chine
+          option(value='japon') Japon
+    button#bouton1.btn.btn-primary.btn-lg(type='button') Rechercher
 
   div(class="container marketing")
     hr(class="featurette-divider")
+    #bloc1.row.featurette
+      .col-md-7
+        h2.featurette-heading
+          | Pourquoi utiliser Move Up ?
+          span.text-muted C'est simple.
+        p.lead
+          | Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+      .col-md-5
+        img.featurette-image.img-responsive.center-block(data-src='holder.js/500x500/auto', src='images/accueil_01.jpg', alt='Generic placeholder image')
 
-    div(class="row featurette")
-      div(class="col-md-7")
-        h2(class="featurette-heading") Pourquoi utiliser Move Up ?
-          span(class="text-muted") C'est simple.
-        p(class="lead") Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
-        div(class="col-md-5")
-          img(class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" src="images/quartier.jpg" alt="Generic placeholder image")
-    hr(class="featurette-divider")
-    div(class="row featurette")
+    //hr(class="featurette-divider")
+    //div(class="row featurette")
       div(class="col-md-7 col-md-push-5")
         h2(class="featurette-heading") Oh yeah, it's that good.
           span(class="text-muted") See for yourself.
         p(class="lead") Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
         div(class="col-md-5 col-md-pull-7")
         img(class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image")
-    hr(class="featurette-divider")
+    //hr(class="featurette-divider")
 
-    div(class="row featurette")
-      div(class="col-md-7")
-        h2(class="featurette-heading") And lastly, this one.
-          span(class="text-muted") Checkmate.
-        p(class="lead") Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
-      div(class="col-md-5")
-        img(class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image")
+    .row.featurette
+      .col-md-7.col-md-push-5
+        h2.featurette-heading
+          | Oh yeah, it's that good.
+          span.text-muted See for yourself.
+        p.lead
+          | Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
+      .col-md-5.col-md-pull-7
+        video(src='....', controls='', poster='images/video.jpg', width='455', autoplay='1')
+
+  .container.marketing
+    .row
+      .col-lg-4
+        img.img-circle(src='images/femme-souriante.png', alt='Generic placeholder image', width='140', height='140')
+        h2 Heading
+        p
+          | Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.
+        p
+          a.btn.btn-default(href='#', role='button') View details »
+      .col-lg-4
+        img.img-circle(src='images/homme-souriant.jpg', alt='Generic placeholder image', width='140', height='140')
+        h2 Heading
+        p
+          | Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.
+        p
+          a.btn.btn-default(href='#', role='button') View details »
+      .col-lg-4
+        img.img-circle(src='images/femme-souriante2.jpg', alt='Generic placeholder image', width='140', height='140')
+        h2 Heading
+        p
+          | Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+        p
+          a.btn.btn-default(href='#', role='button') View details »
+
+
 
     footer
       p(class="pull-right")

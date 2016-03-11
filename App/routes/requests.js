@@ -7,7 +7,7 @@ var authenticate = function(req, res, next){
     if(req.session.isAuthenticated == true)
         next();
     else
-        res.redirect('../');
+        res.redirect('../login');
 };
 
 router.post('/create-request', request.newRequest);
