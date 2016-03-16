@@ -1,14 +1,65 @@
 extends layout
 
-block content
-    p=profile.last_name
-    p=profile.first_name
-    p=profile.address
-    p=profile.country
-    p=profile.city
-    p=profile.postalCode
-    p=profile.lattitude
-    p=profile.longitude
-    p=profile.email
-    p=profile.region
+block css
+    link(href="stylesheets/style.css" rel="stylesheet")
 
+block content
+
+    div(class="form-signin")
+        h2(class="form-signin-heading") Profil
+        hr
+        div
+            div
+                div(class="profilleft")
+                    div(class="text-center")
+                    img(src="" class="avatar img-circle" alt="avatar")
+                    input(type="file" class="form-control")
+                    label
+                        input(type="button" class="btn btn-primary" value="Sauvegarder")
+                        span
+                        input(type="reset" class="btn btn-default" value="Annuler")
+                div(class="profilright")
+                    form(class="form-signin" role="form")
+                        label
+                        p Nom
+                        input(class="form-control" type="text" value=profile.last_name disabled="disabled")
+                        label
+                        p Prénom
+                        input(class="form-control" type="text" value=profile.first_name)      
+                        label
+                        p Adresse
+                        input(class="form-control" type="text" value=profile.address)
+                        label
+                        p Ville
+                        input(class="form-control" type="text" value=profile.city)
+                        label
+                        p Code Postal
+                        input(class="form-control" type="text" value=profile.postalCode)
+                        label
+                        p Email
+                        input(class="form-control" type="text" value=profile.email)
+                        br
+                        label
+                        p Mot de Passe
+                        input(class="form-control" type="password" value="password")
+                        label
+                        p Confirmation de mot de passe
+                        input(class="form-control" type="password" value="password")
+                        br
+                        label
+                        input(type="button" class="btn btn-primary" value="Sauvegarder")
+                        span
+                        input(type="reset" class="btn btn-default" value="Annuler")
+
+    hr
+
+   footer
+      p(class="pull-right")
+        a(href="#") Retour en haut
+      p &copy; 2016 Move Up, Inc. &middot;
+        a(href="#") Privacy
+        span &middot;
+        a(href="#") Terms
+
+block script
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js")

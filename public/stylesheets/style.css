@@ -17,6 +17,7 @@ a {
     text-transform: uppercase;
     font: 12px "Helvetica";
 }
+
 .p1 {
   text-align: center;
 }
@@ -41,6 +42,11 @@ a {
   margin-left: 15px;
 }
 
+.navbar-brand{
+    padding-right: 
+
+}
+    
 /* CUSTOMIZE THE CAROUSEL
 -------------------------------------------------- */
 
@@ -127,9 +133,10 @@ a {
 }
 
 .form-signin {
-  max-width: 330px;
+  max-width: auto;
   padding: 15px;
   margin: 50px auto;
+    line-height: 0.6em;
 }
 .form-signin .form-signin-heading{
     margin-bottom: 10px;
@@ -154,25 +161,17 @@ a {
 .form-signin .form-control:focus {
   z-index: 2;
 }
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.form-signin input[type="password"] {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
 
-/*
-.form-control2 {
-  position: relative;
-  height: auto;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
-  padding: 10px;
-  font-size: 16px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-*/
+.form-signin p{
+    font-weight: bold;
+}
+.form-signin .profilleft{
+	display: inline-block;
+	float: left;
+    margin-left: 150px;
+}
+.form-signin .profilright{
+	display: inline-block;
+	float: right;
+    margin-right: 150px;;
+}
