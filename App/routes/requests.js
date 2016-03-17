@@ -1,18 +1,15 @@
 var express = require('express');
 var router = express.Router();
-
 var request = require('../controllers/Requests');
+var isAuthenticated = require('../middlewares/Auth').isAuthenticated;
 
-var authenticate = function(req, res, next){
-    if(req.session.isAuthenticated == true)
-        next();
-    else
-        res.redirect('../login');
-};
-
+/*Create a new request*/
 router.post('/create-request', request.newRequest);
-router.get('/create-request', authenticate, request.newRequest);
-router.post('/update-request', authenticate, request.updateRequest);
-router.post('/delete-request', authenticate, request.deleteRequest);
+/*Get Page for create a request*/
+router.get('/create-request', isAuthenticated, request.newRequest);
+/*Update Request status*/
+router.post('/update-request', isAuthenticated, request.updateRequest);
+/*Delete Request*/
+router.post('/delete-request', isAuthenticated, request.deleteRequest);
 
 module.exports = router;

@@ -1,19 +1,17 @@
 var express = require('express');
 var router = express.Router();
-
 var profile = require('../controllers/Profiles')
+var isAuthenticated = require('../middlewares/Auth').isAuthenticated;
 
-var authenticate = function(req, res, next){
-    if(req.session.isAuthenticated == true)
-        next();
-    else
-        res.redirect('../login');
-};
-
-router.get('/:id', authenticate, profile.index);
-router.get('/', authenticate, profile.index);
-router.get('/update', authenticate, profile.updateInfos);
-router.post('/update', authenticate, profile.updateInfos);
-router.post('/available', authenticate, profile.updateAvailable);
+/*Get profile page of the specified id*/
+router.get('/:id', isAuthenticated, profile.index);
+/*Get my profile page*/
+router.get('/', isAuthenticated, profile.index);
+/*Get profile update page*/
+router.get('/update', isAuthenticated, profile.updateInfos);
+/*Change profile information*/
+router.post('/update', isAuthenticated, profile.updateInfos);
+/*Change status */
+router.post('/available', isAuthenticated, profile.updateAvailable);
 
 module.exports = router;

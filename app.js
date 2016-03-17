@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var MongoStore = require('connect-mongo')(expressSession);
-var csrf = require('csurf');
+var lusca = require('lusca');
 
 var mongoose = require('mongoose');
 
@@ -43,21 +43,23 @@ app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({extended: false}));
-/*app.use(csrf());
-*/
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(function (req, res, next) {
     var isAuthenticated = req.session.isAuthenticated;
-    var sess = JSON.stringify(req.session);
-    console.log("SESSION : " + sess);
-    if (!isAuthenticated) {
-        isAuthenticated = req.session.isAuthenticated = false;
+    if (!isAuthenticated) {///undefined of false
+        req.session.isAuthenticated = false;
     }
     res.locals.session = req.session;
-    //res.locals._csrf = req.csrfToken();
     next();
 });
+/*
+app.use(lusca({
+    csrf : true,
+    xframe: 'SAMEORIGIN',
+    xssProtection: true
+}));*/
 
 app.use('/', routes);
 app.use('/profile', profiles);

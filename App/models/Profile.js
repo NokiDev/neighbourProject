@@ -18,8 +18,8 @@ var schema = new Schema({
     birthDate : {type : String, required : false},
     avatarLink : {type : String, required : false, default : 'link_to_default_avatar'},
     available : {type : Boolean, required : false, default : false},
-    note : {type : Number, required : false, default : 0},
-    noticesNb : {type : Number, required :false, default :0},
+    noteAvg : {type : Number, required : false, default : 0},
+    reviewsNb : {type : Number, required :false, default :0},
     createdOn : {type : Date, default : Date.now}
 });
 
