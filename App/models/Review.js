@@ -4,7 +4,8 @@ var mongoose = require('mongoose'),
 var schema = new Schema({
     description: {type: String, required: true},
     note: {type: Number, required: true},
-    user: {type: Schema.Types.ObjectId, ref: 'Profile'},
+    forUser: {type: Schema.Types.ObjectId, ref: 'Profile'},
+    fromUser: {type: Schema.Types.ObjectId, ref: 'Profile'},
     createdOn: {type: Date, default: Date.now}
 });
 

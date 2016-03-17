@@ -42,10 +42,6 @@ a {
   margin-left: 15px;
 }
 
-.navbar-brand{
-    padding-right: 
-
-}
     
 /* CUSTOMIZE THE CAROUSEL
 -------------------------------------------------- */
@@ -133,7 +129,7 @@ a {
 }
 
 .form-signin {
-  max-width: auto;
+  max-width: 330px;
   padding: 15px;
   margin: 50px auto;
     line-height: 0.6em;

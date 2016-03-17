@@ -1,11 +1,13 @@
 require('../models/Profile');
 require('../models/Request');
+require('../models/Review');
 
 async = require('async');
 
 var mongoose = require("mongoose"),
     Profile = mongoose.model('Profile'),
     Request = mongoose.model('Request'),
+    Review = mongoose.model('Review'),
     removeDiacritics = require("diacritics").remove,
     validator = require("validator"),
     http = require("https");
@@ -23,7 +25,7 @@ var Profiles = {
                         if(profile)
                             callback(err, profile);
                         else{
-                            var err = Error("NotFound");
+                            err = Error("NotFound");
                             err.statusCode=404;
                             next(err);
                         }
@@ -178,6 +180,51 @@ var Profiles = {
             .then(findCb)
             .catch(function(err){ console.log(err) });*/
     },
+    giveNote : function(req, res){
+        async.waterfall(
+            [
+                function(callback){
+                    Reviews.findOne({from_user : req.session.userId, forUser : req.body.userId}, function(err, review){callback(err,review);})
+                },
+                function(review, callback){
+                    if(review){
+                        review.note = req.body.note;
+                        review.description = req.body.description;
+                    }else{
+                        review = new Review({
+                            note : req.body.note,
+                            description : req.body.description,
+                            forUser : req.body.userId,
+                            fromUser : req.session.userId
+                        });
+                    }
+                    review.save(callback(err));
+                },
+                function(callback){
+                    Review.find({forUser : req.body.userId}, function(err, reviews){callback(err, reviews);})
+                },
+                function(reviews, callback){
+                    var average = 0;
+                    var i;
+                    for(review in reviews){
+                        average += reviews.note;
+                        i++;
+                    }
+                    average /= i;
+                    Profile.findOne({_id: req.body.userId}, function(err, profile){callback(err, average, i, profile)});
+                },
+                function(average, count, profile, callback){
+                    profile.noteAvg = average;
+                    profile.reviewsNb = count;
+                    profile.save(callback(err));
+                },
+                function(){
+                    res.redirect('/profile');
+                }
+            ],
+            function(err){res.redirect('/')}
+        )
+    },
     register: function (req, res) {
         if (req.method == "GET") {
             ///Display register form
@@ -205,7 +252,7 @@ var Profiles = {
             async.waterfall(
                 [
                     function(callback){
-                        http.request(options, callback(response))
+                        http.request(options, function(response){callback(response)})
                     },
                     function(response, callback){
                         response.setEncoding('utf8');
