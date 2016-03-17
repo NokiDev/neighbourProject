@@ -3,7 +3,11 @@ extends ../layout
 block css
 
     link(href="stylesheets/style.css" rel="stylesheet")
-
+    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPl4veoA0UeOp5c71VouLHcZsyvKUwgW8", type='text/javascript')
+    script(script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous")
+    script(type="text/javascript" src="/script/viewprofil.js")
+    
+    
 block content
 
     div(class="form-signin")
@@ -19,6 +23,37 @@ block content
                         input(type="button" class="btn btn-primary" value="Sauvegarder")
                         span
                         input(type="reset" class="btn btn-default" value="Annuler")
+                        br
+                        br
+                        br
+                    div(id="check")
+                    
+                    label Activer l'aide
+                        input(type="checkbox" id="checkbox1")
+                        br
+                    
+                    div(id="help" style="display:none")
+                      form(class="form-signin" role="form")
+                        label
+                        p Type d'aide
+                        input(class="form-control" type="text" value="")
+                        label
+                        p Compétences
+                        input(class="form-control" type="text" value="")      
+                        label
+                        p Description
+                        textarea(class="form-control")
+                        label
+                        p Rayon d'action
+                        input(class="form-control" type="text" value="")
+                        br
+
+                        input(type="button" class="btn btn-primary" value="Enregistrer")
+                        
+                    #map(style='height: 400px; width: 500px;')
+                        
+             
+                        
                 div(class="profilright")
                     form(class="form-signin" role="form")
                         label

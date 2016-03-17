@@ -12,6 +12,9 @@ head
   link(href="/stylesheets/carousel.css" rel="stylesheet")
   link(rel='icon', href='/images/favicon.ico')
   script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous")
+  script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js")
+  script(type="text/javascript" src="/script/view.js")
+  
   block css
 html
   body
@@ -41,7 +44,14 @@ html
               li
                 a(href="/register") S'inscrire
               li
-                a(href="/login") Se connecter
+                a(id="drop1" aria-expanded="true") Se connecter
+                  span
+                  ul
+          div(id="lidrop" style="display:none" class="container")
+            form(method="POST" action="/login")
+                input(type="email" name="email" id="inputEmail" class="form-control" placeholder="Adresse Email" required autofocus)
+                input(type="password" id="inputPassword" name="password" class="form-control" placeholder="Mot de passe" required)
+                button(class="btn btn-lg btn-primary btn-block" type="submit") Se connecter
 
     block content
         
