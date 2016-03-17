@@ -19,7 +19,7 @@ var Profiles = {
         async.waterfall(
             [
                 function(callback){
-                    Profile.findOne({_id:id}, "first_name last_name email address city birthDate avatarLink available note noticesNb", function(err,profile){
+                    Profile.findOne({_id:id}, "first_name last_name email address city birthDate avatarLink available longitude lattitude note noticesNb", function(err,profile){
                         if(profile)
                             callback(err, profile);
                         else{
@@ -187,14 +187,7 @@ var Profiles = {
             });
         }
         else if (req.method == "POST") {
-            /*async.waterfall(
-                [
-                    function(){},
-                    function(){},
-                    function(){},
-                ],
-                function(err){}
-            );*/
+
             ///API KEY :  AIzaSyBh-ZMhtx_g97Xs2ZLBryqd8ldApqo_veI
             // Request Exemple : https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key= AIzaSyBh-ZMhtx_g97Xs2ZLBryqd8ldApqo_ve
             var address = removeDiacritics(req.body.address);
@@ -209,8 +202,88 @@ var Profiles = {
 
             var datas = '';
             var errors = {};
+            async.waterfall(
+                [
+                    function(callback){
+                        http.request(options, callback(response))
+                    },
+                    function(response, callback){
+                        response.setEncoding('utf8');
+                        response.on('data', function(chunk){
+                            datas+=chunk;
+                        });
+                        response.on('end', callback)
+                    },
+                    function(){
+                        datas = JSON.parse(datas);
+                        if (datas.status != "OK" || datas.results[0].address_components[6] === undefined) {
+                            errors.location = "Your location doesn't exist";
+                        }
+                        if (req.body.password === undefined || req.body.passwordConfirm === undefined) {
+                            errors.password = "Please fill this field";
+                        }
+                        else if (req.body.password != req.body.passwordConfirm) {
+                            errors.password = "Your passwords doesn't match";
+                            req.body.password = "";
+                            req.body.passwordConfirm = "";
+                        }
 
-            var callback = function (response) {
+                        if (req.body.last_name === undefined) {
+                            errors.last_name = "Please fill this field"
+                        }
+                        if (req.body.first_name === undefined) {
+                            errors.first_name = "Please fill this field"
+                        }
+                        if (req.body.email !== undefined) {
+                            if (validator.isEmail(req.body.email)) {
+                                //FIXME CallbackHell
+                                Profile.findOne({'email': req.body.email}, function (err, user) {
+                                    if (err) throw err;
+                                    if (user) {
+                                        errors.mail = "Emails unavailable";
+                                        res.render('Profile/register', {values: req.body, errors: errors});
+                                    }
+                                    else {
+                                        var location = datas.results[0].geometry.location;
+                                        var addressComponents = datas.results[0].address_components;
+                                        var profile = new Profile({
+                                            first_name: req.body.first_name,
+                                            last_name: req.body.last_name,
+                                            email: req.body.email,
+                                            password: req.body.password,
+                                            address: addressComponents[0].long_name + ' ' + addressComponents[1].long_name,
+                                            city: addressComponents[3].long_name,
+                                            region: addressComponents[4].long_name,
+                                            country: addressComponents[5].long_name,
+                                            postalCode: addressComponents[6].long_name,
+                                            lattitude: location.lat,
+                                            longitude: location.lng
+                                        });
+                                        profile.save(function (err) {
+                                            if (err) throw(err);
+                                            req.session.userId = profile._id;
+                                            req.session.isAuthenticated = true;
+                                            res.redirect('profile/');
+                                        });
+                                    }
+                                });
+                            }
+                            else {
+                                errors.mail = "Email's format non valid"
+                                req.body.mail = "";
+                            }
+                        }
+                        else {
+                            errors.mail = "Please fill this field"
+                        }
+                        if (Object.keys(errors).length > 0) {
+                            res.render('Profile/register', {values: req.body, errors: errors});
+                        }
+                    },
+                ],
+                function(err){res.render('Profile/register', {values: req.body, errors: errors});}
+            );
+           /* var callback = function (response) {
                 response.setEncoding('utf8');
                 response.on('data', function (chunk) {
                     datas += chunk;
@@ -282,13 +355,12 @@ var Profiles = {
                     }
                 });
             };
-            http.request(options, callback).end();
+            http.request(options, callback).end();*/
         }
     },
     login: function (req, res) {
-        if (req.method == "GET") {
+        if (req.method == "GET")
             res.render('Profile/login', {title: "Login", values: {email: ""}});
-        }
         else if (req.method == "POST") {
             async.waterfall(
                 [
