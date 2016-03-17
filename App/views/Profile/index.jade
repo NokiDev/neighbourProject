@@ -9,84 +9,70 @@ block css
     
     
 block content
-
-    div(class="form-signin")
-        h2(class="form-signin-heading") Profil
+    div.container
+        h2 Profil
         hr
-        div
-            div
-                div(class="profilleft")
-                    div(class="text-center")
-                    img(src="" class="avatar img-circle" alt="avatar")
-                    input(type="file" class="form-control")
+        div.profile-container
+            div(class="profilleft")
+                div(class="text-center")
+                img(src=profile.avatarLink class="avatar img-circle" alt="avatar")
+
+                label Activer l'aide
+                    input(type="checkbox" id="checkbox1")
+                    br
+
+                div(id="help" style="display:none")
+                  form(class="form-signin-left" role="form")
                     label
-                        input(type="button" class="btn btn-primary" value="Sauvegarder")
-                        span
-                        input(type="reset" class="btn btn-default" value="Annuler")
-                        br
-                        br
-                        br
-                    div(id="check")
-                    
-                    label Activer l'aide
-                        input(type="checkbox" id="checkbox1")
-                        br
-                    
-                    div(id="help" style="display:none")
-                      form(class="form-signin" role="form")
-                        label
-                        p Type d'aide
-                        input(class="form-control" type="text" value="")
-                        label
-                        p Compétences
-                        input(class="form-control" type="text" value="")      
-                        label
-                        p Description
-                        textarea(class="form-control")
-                        label
-                        p Rayon d'action
-                        input(class="form-control" type="text" value="")
-                        br
+                    p Type d'aide
+                    input(class="form-control" type="text" value="")
+                    label
+                    p Compétences
+                    input(class="form-control" type="text" value="")
+                    label
+                    p Description
+                    textarea(class="form-control")
+                    label
+                    p Rayon d'action
+                    input(class="form-control" type="text" value="")
+                    br
 
-                        input(type="button" class="btn btn-primary" value="Enregistrer")
-                        
-                    #map(style='height: 400px; width: 500px;')
-                        
-             
-                        
-                div(class="profilright")
-                    form(class="form-signin" role="form")
-                        label
-                        p Nom
-                        input(class="form-control" type="text" value=profile.last_name disabled="disabled")
-                        label
-                        p Prénom
-                        input(class="form-control" type="text" value=profile.first_name)      
-                        label
-                        p Adresse
-                        input(class="form-control" type="text" value=profile.address)
-                        label
-                        p Ville
-                        input(class="form-control" type="text" value=profile.city)
-                        label
-                        p Code Postal
-                        input(class="form-control" type="text" value=profile.postalCode)
-                        label
-                        p Email
-                        input(class="form-control" type="text" value=profile.email)
-                        br
-                        label
-                        p Mot de Passe
-                        input(class="form-control" type="password" value="password")
-                        label
-                        p Confirmation de mot de passe
-                        input(class="form-control" type="password" value="password")
-                        br
-                        label
-                        input(type="button" class="btn btn-primary" value="Sauvegarder")
-                        span
-                        input(type="reset" class="btn btn-default" value="Annuler")
+                    input(type="button" class="btn btn-primary" value="Enregistrer")
 
+                #map(style='height: 400px; width: 500px;')
+
+            div(class="profilright")
+                form(class="form-signin-right" role="form")
+                    label
+                    p Nom
+                    input(class="form-control" type="text" value=profile.last_name disabled="disabled")
+                    label
+                    p Prénom
+                    input(class="form-control" type="text" value=profile.first_name)
+                    label
+                    p Adresse
+                    input(class="form-control" type="text" value=profile.address)
+                    label
+                    p Ville
+                    input(class="form-control" type="text" value=profile.city)
+                    label
+                    p Code Postal
+                    input(class="form-control" type="text" value=profile.postalCode)
+                    label
+                    p Email
+                    input(class="form-control" type="text" value=profile.email)
+                    br
+                    label
+                    p Mot de Passe
+                    input(class="form-control" type="password" value="password")
+                    label
+                    p Confirmation de mot de passe
+                    input(class="form-control" type="password" value="password")
+                    br
+                    label
+                    input(type="button" class="btn btn-primary" value="Sauvegarder")
+                    span
+                    input(type="reset" class="btn btn-default" value="Annuler")
     hr
 
    footer

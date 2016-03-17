@@ -18,6 +18,10 @@ a {
     font: 12px "Helvetica";
 }
 
+#drop1 {
+  cursor: pointer;
+}
+
 .p1 {
   text-align: center;
 }
@@ -134,6 +138,27 @@ a {
   margin: 50px auto;
     line-height: 0.6em;
 }
+
+.profile-container{
+  width: 100%;
+  max-width : 1100px;
+  margin : auto;
+  display : flex;
+  flex-direction: row;
+}
+
+.form-signin-left{
+  max-width: 330px;
+  padding: 15px;
+  line-height: 0.6em;
+}
+
+.form-signin-right{
+  max-width: 330px;
+  padding: 15px;
+  line-height: 0.6em;
+}
+
 .form-signin .form-signin-heading{
     margin-bottom: 10px;
     font-weight: bold;
@@ -161,13 +186,21 @@ a {
 .form-signin p{
     font-weight: bold;
 }
-.form-signin .profilleft{
+
+.profilleft{
 	display: inline-block;
-	float: left;
-    margin-left: 150px;
+	width : 50%;
 }
-.form-signin .profilright{
+.profilright{
 	display: inline-block;
-	float: right;
-    margin-right: 150px;;
+	width : 50%;
+}
+
+.container h2{
+  text-align: center;
+}
+
+#map{
+  width : 500px;
+  height : 500px;
 }
