@@ -1,0 +1,12 @@
+extends ../layout
+
+
+block content
+
+    h1.
+        Propositions d'aide
+    p Utilisateur: #{request.user}
+    p Description: #{request.description} 
+    p Nombre de personnes: #{request.nbPeople}
+    p Date: #{request.date}
+    p Date de création de l'annonce #{request.createdOn}
