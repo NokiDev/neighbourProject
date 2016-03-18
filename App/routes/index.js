@@ -10,6 +10,8 @@ router.get('/', function (req, res, next) {
     res.render('index', {title: 'Express'});
 });
 
+
+
 /*find neighbours arround the location of the connected user*/
 router.get('/findNeighbours/:radius', isAuthenticated, mapping.findNeighbours);
 /*Connect user*/

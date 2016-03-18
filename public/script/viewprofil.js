@@ -9,11 +9,11 @@ $(document).ready(function(){
                         });
 
 //OnOff
-
+console.log(profile);
 
 // array contenant les positions des markers
     var locations = [
-      ['Abidjdan', 5.345317, -4.024429],
+      ['PAris', 48.866667, 2.333333],
       ['Gagnoa', 6.133333, -5.933333],
       ['Korogho', 9.416667, -5.616667]
     ];

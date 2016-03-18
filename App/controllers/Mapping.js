@@ -38,7 +38,7 @@ var Mapping = {
                         }]
                 }, "_id last_name first_name email address avatarLink note noticesNb", function (err, neighbours) {
                     if (err) throw err;
-                    res.render('Mapping/findNeighbours', {title: 'Find Neighbours', neighbours: neighbours});
+                    res.render('Mapping/findPeople', {title: 'Find Neighbours', neighbours: neighbours});
                 });
             }
             else
