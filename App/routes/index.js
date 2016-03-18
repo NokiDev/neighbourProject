@@ -25,5 +25,4 @@ router.get('/register', profile.register);
 /*Register a user in bdd*/
 router.post('/register', profile.register);
 
-
 module.exports = router;

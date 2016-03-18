@@ -9,7 +9,7 @@ $(document).ready(function(){
                         });
 
 //OnOff
-console.log(profile);
+console.log(profile.lattitude);
 
     console.log(JSON.stringify(neighbours[0]));
 
@@ -22,7 +22,7 @@ console.log(profile);
 // definit le type de map, le zoom et la position de depart de la carte
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 6,
-      center: new google.maps.LatLng(48.866667, 2.333333),
+      center: new google.maps.LatLng(profile.lattitude, profile.longitude),
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
