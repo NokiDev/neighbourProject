@@ -1,6 +1,8 @@
 require('../models/Profile');
 require('../models/Request');
 require('../models/Review');
+require('../models/Helper');
+
 
 async = require('async');
 
@@ -8,6 +10,7 @@ var mongoose = require("mongoose"),
     Profile = mongoose.model('Profile'),
     Request = mongoose.model('Request'),
     Review = mongoose.model('Review'),
+    Helper = mongoose.model('Helper'),
     removeDiacritics = require("diacritics").remove,
     validator = require("validator"),
     http = require("https");
@@ -21,7 +24,7 @@ var Profiles = {
         async.waterfall(
             [
                 function(callback){
-                    Profile.findOne({_id:id}, "first_name last_name email address city birthDate avatarLink available longitude lattitude note noticesNb", function(err,profile){
+                    Profile.findOne({_id:id}, "first_name last_name email address city birthDate avatarLink available longitude lattitude note noticesNb description skills helpType actionRadius", function(err,profile){
                         if(profile)
                             callback(err, profile);
                         else{
@@ -37,8 +40,42 @@ var Profiles = {
                 function(profile, requests, callback){
                     Review.findOne({user:id}, function(err, review){callback(err, profile, requests, review)});
                 },
-                function(profile, requests, review){
-                    res.render('Profile/index', {title: "Profile", profile: profile, requests: requests, review: review});
+                function(profile, requests, review, callback){
+                    var radius = 0.01;
+                    var latmin = profile.lattitude - radius;
+                    var latmax = profile.lattitude + radius;
+                    var lngmin = profile.longitude - radius;
+                    var lngmax = profile.longitude + radius;
+
+                    Profile.find({
+                        $and: [{
+                            _id: {$ne: req.session.userId}
+                        },
+                            {
+                                $and: [{
+                                    longitude: {$gte: lngmin}
+                                }, {longitude: {$lte: lngmax}}
+                                ]
+                            },
+                            {
+                                $and: [{
+                                    lattitude: {$gte: latmin}
+                                },
+                                    {lattitude: {$lte: latmax}}
+                                ]
+                            }]
+                    }, "_id last_name first_name email address avatarLink note noticesNb description helpType skills actionRadius lattitude longitude", function (err, neighbours) {
+                        callback(err, profile, requests, review, neighbours);
+                    });
+                },
+                function(profile, requests, review, neighbours){
+                    res.render('Profile/index', {
+                        title: "Profile",
+                        profile: profile,
+                        requests: requests,
+                        review: review,
+                        neighbours : neighbours
+                    });
                 }
             ],
             function(err){res.redirect('../')}
@@ -59,7 +96,7 @@ var Profiles = {
                     ///API KEY :  AIzaSyBh-ZMhtx_g97Xs2ZLBryqd8ldApqo_veI
                     // Request Exemple : https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key= AIzaSyBh-ZMhtx_g97Xs2ZLBryqd8ldApqo_veI
                     var address = req.body.address;
-                    address = removeDiacritics(address)
+                    address = removeDiacritics(address);
                     var addressFormatedUrl = address.replace(/\s/g, "+"); //Change space into '+'
                     var url = '/maps/api/geocode/json?address=+' + addressFormatedUrl + ',+' + req.body.city + ',+' + req.body.postalCode + '&key=AIzaSyBh-ZMhtx_g97Xs2ZLBryqd8ldApqo_veI';
                     ////GOOGLE API REQUEST FOR CONVERT ADRESS TO LAT AND LONG
@@ -112,7 +149,7 @@ var Profiles = {
                                 errors.first_name = "Please fill this field"
                             }
                             if (Object.keys(errors).length > 0) {
-                                res.render('Profile/update', {values: profile, errors: errors})
+                                res.render('Profile/update', {profile: profile, errors: errors})
                             }
                             else {
                                 var location = datas.results[0].geometry.location;
@@ -148,7 +185,11 @@ var Profiles = {
                     Profile.findOne({_id: req.session.userId}, function(err, profile){cb (err, profile)});},
                 function(profile, callback){
                     if(profile) {
-                        profile.available = req.body.available == "on";
+                        profile.available = true;
+                        profile.description = req.body.description;
+                        profile.skills = req.body.skills;
+                        profile.actionRadius = req.body.actionRadius;
+                        profile.helpType = req.body.helpType;
                         profile.save(function(err){callback(err,profile)});
                     }
                     else{
@@ -157,11 +198,11 @@ var Profiles = {
                         callback(err);
                     }
                 },
-                function(profile, callback){
-                    res.redirect('profile/');
+                function(profile){
+                    res.redirect('/profile/');
                 }
             ],
-            function(err){next(err)}
+            function(err){console.log(err)}
         );
         /*function findCb(err, profile){
             if(err) throw err;

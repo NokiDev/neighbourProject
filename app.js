@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var MongoStore = require('connect-mongo')(expressSession);
-var lusca = require('lusca');
+//var helmet = require('helmet');
 
 var mongoose = require('mongoose');
 
@@ -54,12 +54,8 @@ app.use(function (req, res, next) {
     res.locals.session = req.session;
     next();
 });
-/*
-app.use(lusca({
-    csrf : true,
-    xframe: 'SAMEORIGIN',
-    xssProtection: true
-}));*/
+
+//app.use(helmet);
 
 app.use('/', routes);
 app.use('/profile', profiles);

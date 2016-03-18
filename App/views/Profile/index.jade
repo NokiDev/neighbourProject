@@ -68,21 +68,21 @@ block content
 
             #map(style='height:100%; width: 100%;')
             div(id="help" style="display:none")
-                form(class="form-signin-left" role="form")
+                form(class="form-signin-left" role="form" method ="POST" action="/profile/available")
                     label
                     p Type d'aide
-                    input(class="form-control" type="text" value="")
+                    input(name="helpType" class="form-control" type="text" value="")
                     label
                     p Compétences
-                    input(class="form-control" type="text" value="")
+                    input(name="skills" class="form-control" type="text" value="")
                     label
                     p Description
-                    textarea(class="form-control")
+                    textarea(name="description" class="form-control")
                     label
                     p Rayon d'action
-                    input(class="form-control" type="text" value="")
+                    input(class="form-control" name="actionRadius" type="text" value="")
                     br
-                    input(type="button" class="btn btn-primary" value="Enregistrer")
+                    button(type="submit" class="btn btn-primary" ) Enregistrer
     hr
 
 
@@ -100,4 +100,5 @@ block script
     script(script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous")
     script(type = "text/javascript").
         var profile = !{JSON.stringify(profile)};
+        var neighbours = !{JSON.stringify(neighbours)};
     script(type="text/javascript" src="/script/viewprofil.js")

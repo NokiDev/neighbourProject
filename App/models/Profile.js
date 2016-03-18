@@ -20,7 +20,11 @@ var schema = new Schema({
     available : {type : Boolean, required : false, default : false},
     noteAvg : {type : Number, required : false, default : 0},
     reviewsNb : {type : Number, required :false, default :0},
-    createdOn : {type : Date, default : Date.now}
+    createdOn : {type : Date, default : Date.now},
+    description : {type :String, default:""},
+    skills : {type : String, required : true},
+    helpType : {type : String, required : true},
+    actionRadius : {type : Number, default : 5}
 });
 
 //Appelé avant d'effectuer la sauvegarde d'un utilisateur

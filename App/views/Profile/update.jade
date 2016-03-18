@@ -13,24 +13,24 @@ block content
                 div(class="profile-block")
                     div(class="profile-relative")
                         div
-                            input(class="form-control" type="text" value=profile.first_name)
+                            input(class="form-control" name="first_name" type="text" value=profile.first_name)
                         div
-                            input(class="form-control" type="text" value=profile.last_name)
+                            input(class="form-control" name="last_name" type="text" value=profile.last_name)
 
             div(class="profilright")
                 div(class="form-signin")
                     label
                     p Adresse
-                    input(type="text" class="form-control" value=profile.address)
+                    input(type="text" name="address" class="form-control" value=profile.address)
                     label
                     p Ville
-                    input(type="text" class="form-control" value=profile.city)
+                    input(type="text" name="city" class="form-control" value=profile.city)
                     label
                     p Code Postal
-                    input(type="text" class="form-control" value=profile.postalCode)
+                    input(type="text" name="postalCode" class="form-control" value=profile.postalCode)
                     label
                     p Email
-                    input(type="text" class="form-control" value=profile.email)
+                    input(type="text" name="email" class="form-control" value=profile.email)
 
                     button(type="submit" class="form-control btn btn-primary") Editer
 
