@@ -34,8 +34,11 @@ var Profiles = {
                 function(profile, callback){
                     Request.findOne({user:id}, "_id description date createdOn nbPeople urgent longitude lattitude", function(err, requests){callback(err, profile, requests)});
                 },
-                function(profile, requests){
-                    res.render('Profile/index', {title: "Profile", profile: profile, requests: requests});
+                function(profile, requests, callback){
+                    Review.findOne({user:id}, function(err, review){callback(err, profile, requests, review)});
+                },
+                function(profile, requests, review){
+                    res.render('Profile/index', {title: "Profile", profile: profile, requests: requests, review: review});
                 }
             ],
             function(err){res.redirect('../')}
@@ -49,7 +52,7 @@ var Profiles = {
                     ///Display register form
                     res.render('Profile/update', {
                         title: "Update",
-                        values: profile
+                        profile: profile
                     });
                 }
                 else if (req.method == "POST") {
@@ -249,7 +252,7 @@ var Profiles = {
 
             var datas = '';
             var errors = {};
-            async.waterfall(
+            /*async.waterfall(
                 [
                     function(callback){
                         http.request(options, function(response){callback(response)})
@@ -329,8 +332,8 @@ var Profiles = {
                     },
                 ],
                 function(err){res.render('Profile/register', {values: req.body, errors: errors});}
-            );
-           /* var callback = function (response) {
+            );*/
+            var callback = function (response) {
                 response.setEncoding('utf8');
                 response.on('data', function (chunk) {
                     datas += chunk;
@@ -390,7 +393,7 @@ var Profiles = {
                             });
                         }
                         else {
-                            errors.mail = "Email's format non valid"
+                            errors.mail = "Email's format non valid";
                             req.body.mail = "";
                         }
                     }
@@ -402,7 +405,7 @@ var Profiles = {
                     }
                 });
             };
-            http.request(options, callback).end();*/
+            http.request(options, callback).end();
         }
     },
     login: function (req, res) {

@@ -16,7 +16,7 @@ var schema = new Schema({
     lattitude : {type : Number, required : true},
     longitude : {type : Number, required : true},
     birthDate : {type : String, required : false},
-    avatarLink : {type : String, required : false, default : 'link_to_default_avatar'},
+    avatarLink : {type : String, required : false, default : '/images/default-avatar.png'},
     available : {type : Boolean, required : false, default : false},
     noteAvg : {type : Number, required : false, default : 0},
     reviewsNb : {type : Number, required :false, default :0},

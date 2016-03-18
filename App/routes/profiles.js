@@ -4,7 +4,7 @@ var profile = require('../controllers/Profiles');
 var isAuthenticated = require('../middlewares/Auth').isAuthenticated;
 
 /*Get profile page of the specified id*/
-router.get('/:id', isAuthenticated, profile.index);
+router.get('/?id', isAuthenticated, profile.index);
 /*Get my profile page*/
 router.get('/', isAuthenticated, profile.index);
 /*Get profile update page*/

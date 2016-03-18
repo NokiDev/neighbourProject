@@ -1,12 +1,46 @@
 extends ../layout
 
+block css
+
 block content
-    input(type="file" class="form-control")
-        label
-            input(type="button" class="btn btn-primary" value="Sauvegarder")
-            span
-            input(type="reset" class="btn btn-default" value="Annuler")
-            br
-            br
-            br
-        div(id="check")
+    div.container
+        form(method="POST" action="/profile/update" class="profile-container")
+            div(class="profilleft")
+                img(src=profile.avatarLink class="avatar img-circle" alt="avatar")
+                input(type="file" class="form-control")
+                div(class="profile-block")
+                    div(class="profile-relative")
+                        div
+                            input(class="form-control" type="text" value=profile.first_name)
+                        div
+                            input(class="form-control" type="text" value=profile.last_name)
+
+            div(class="profilright")
+                div(class="form-signin")
+                    label
+                    p Adresse
+                    input(type="text" class="form-control" value=profile.address)
+                    label
+                    p Ville
+                    input(type="text" class="form-control" value=profile.city)
+                    label
+                    p Code Postal
+                    input(type="text" class="form-control" value=profile.postalCode)
+                    label
+                    p Email
+                    input(type="text" class="form-control" value=profile.email)
+
+                    button(type="submit" class="form-control btn btn-primary") Editer
+
+footer
+    p(class="pull-right")
+        a(href="#") Retour en haut
+    p &copy; 2016 Move Up, Inc. &middot;
+        a(href="#") Privacy
+        span &middot;
+        a(href="#") Terms
+
+block script
+    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPl4veoA0UeOp5c71VouLHcZsyvKUwgW8", type='text/javascript')
+    script(script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous")
+    script(type="text/javascript" src="/script/viewprofil.js")

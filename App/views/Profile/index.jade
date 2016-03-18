@@ -2,27 +2,73 @@ extends ../layout
 
 block css
 
-    link(href="stylesheets/style.css" rel="stylesheet")
-    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPl4veoA0UeOp5c71VouLHcZsyvKUwgW8", type='text/javascript')
-    script(script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous")
-    script(type="text/javascript" src="/script/viewprofil.js")
-    
-    
 block content
     div.container
-        h2 Profil
-        hr
         div.profile-container
             div(class="profilleft")
-                div(class="text-center")
+                if(profile._id == session.userId)
+                    a(class="btn btn-primary misc-profile" href="/profile/update") Editer
                 img(src=profile.avatarLink class="avatar img-circle" alt="avatar")
+                div(class="profile-block")
+                    div(class="profile-relative")
+                        div
+                            span(class="form-control")=profile.first_name
+                        div
+                            span(class="form-control")=profile.last_name
 
-                label Activer l'aide
-                    input(type="checkbox" id="checkbox1")
-                    br
+            div(class="profilright")
+                div(class="form-signin-right")
+                    label
+                    p Adresse
+                    div(class="form-control")=profile.address
+                    label
+                    p Ville
+                    div(class="form-control")=profile.city
+                    label
+                    p Code Postal
+                    div(class="form-control")=profile.postalCode
+                    label
+                    p Email
+                    div(class="form-control")=profile.email
+        div.utils-container
+            div.center
+                label="Note moyenne : "
+                    if(profile.noteAvg)
+                        span=profile.noteAvg
+                        span (
+                        span=profile.reviewsNb
+                        span avis)
+                    else
+                        span Aucune note
 
-                div(id="help" style="display:none")
-                  form(class="form-signin-left" role="form")
+                label="Dernier avis : "
+                    if(profile.reviewsNb)
+                        span=review.description
+                    else
+                        span Aucun avis
+            if(session.userId != profile._id)
+                form(action="/giveNote" method="POST" class="row-flex")
+                    div.center
+                        textarea(class="form-control" type="text" placeholder="Laisser un avis")
+                        div.row-flex
+                            select(class="form-control" name="note" id="note" required)
+                                option(value="1") 1
+                                option(value="2") 2
+                                option(value="3") 3
+                                option(value="4") 4
+                                option(value="5") 5
+                            button(type="submit" class="btn btn-primary required form-control") Laisser un avis
+
+
+
+        div.map-container
+            div.map-utils
+                label activer l'aide
+                input(type="checkbox" name="private" id="checkbox1")
+
+            #map(style='height:100%; width: 100%;')
+            div(id="help" style="display:none")
+                form(class="form-signin-left" role="form")
                     label
                     p Type d'aide
                     input(class="form-control" type="text" value="")
@@ -36,46 +82,12 @@ block content
                     p Rayon d'action
                     input(class="form-control" type="text" value="")
                     br
-
                     input(type="button" class="btn btn-primary" value="Enregistrer")
-
-                #map(style='height: 400px; width: 500px;')
-
-            div(class="profilright")
-                form(class="form-signin-right" role="form")
-                    label
-                    p Nom
-                    input(class="form-control" type="text" value=profile.last_name disabled="disabled")
-                    label
-                    p Prénom
-                    input(class="form-control" type="text" value=profile.first_name)
-                    label
-                    p Adresse
-                    input(class="form-control" type="text" value=profile.address)
-                    label
-                    p Ville
-                    input(class="form-control" type="text" value=profile.city)
-                    label
-                    p Code Postal
-                    input(class="form-control" type="text" value=profile.postalCode)
-                    label
-                    p Email
-                    input(class="form-control" type="text" value=profile.email)
-                    br
-                    label
-                    p Mot de Passe
-                    input(class="form-control" type="password" value="password")
-                    label
-                    p Confirmation de mot de passe
-                    input(class="form-control" type="password" value="password")
-                    br
-                    label
-                    input(type="button" class="btn btn-primary" value="Sauvegarder")
-                    span
-                    input(type="reset" class="btn btn-default" value="Annuler")
     hr
 
-   footer
+
+
+footer
       p(class="pull-right")
         a(href="#") Retour en haut
       p &copy; 2016 Move Up, Inc. &middot;
@@ -84,4 +96,6 @@ block content
         a(href="#") Terms
 
 block script
-    script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js")
+    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPl4veoA0UeOp5c71VouLHcZsyvKUwgW8", type='text/javascript')
+    script(script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous")
+    script(type="text/javascript" src="/script/viewprofil.js")
