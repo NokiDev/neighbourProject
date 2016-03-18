@@ -27,7 +27,7 @@ block content
             h1 Nouveau teaser du site ! 
             p Nous avons créé un petit teaser et nous comptons sur vous pour le partager au maximum !
             p
-              a(class="btn btn-lg btn-primary" href="#" role="button") Regarder
+              a(class="btn btn-lg btn-primary" href="https://youtu.be/s4iQIIiESB4" role="button") Regarder
     a(class="left carousel-control" href="#myCarousel" role="button" data-slide="prev")
       span(class="glyphicon glyphicon-chevron-left" aria-hidden="true")
       span(class="sr-only") Précédent
@@ -35,39 +35,11 @@ block content
       span(class="glyphicon glyphicon-chevron-right" aria-hidden="true")
       span(class="sr-only") Suivant
 
-  //div(class="p1")
-    p
-      h3 Trouve des personnes sympas et efficaces
-        br
-        span C'est convivial et surtout économique
-        span(class="glyphicon glyphicon-euro")
-
-
-  //#choix_multiple
-    form#choix1(method='post', action='#')
-      p
-        label(for='pays') Je cherche quoi ?
-        br
-        select#search(name='find')
-          option(value='france') Trouver des déménageurs
-          option(value='espagne') Proposer mon aide
-    form#choix2(method='post', action='#')
-      p
-        label(for='pays') Dans quel lieu ?
-        br
-        select#pays(name='pays')
-          option(value='france') France
-          option(value='espagne') Espagne
-          option(value='italie') Italie
-          option(value='royaume-uni') Royaume-Uni
-          option(value='canada') Canada
-          option(value='etats-unis') États-Unis
-          option(value='chine') Chine
-          option(value='japon') Japon
-    button#bouton1.btn.btn-primary.btn-lg(type='button') Rechercher
-
   div(class="container marketing")
-    hr(class="featurette-divider")
+    #bloc2.row.featurette
+        div(class="video")
+            iframe(width="560" height="315" src="https://www.youtube.com/embed/s4iQIIiESB4" frameborder="0" allowfullscreen)
+  
     #bloc1.row.featurette
       .col-md-7
         h2.featurette-heading
@@ -78,26 +50,6 @@ block content
           
       .col-md-5
         img.featurette-image.img-responsive.center-block(data-src='holder.js/500x500/auto', src='images/style/accueil_01.jpg', alt='Generic placeholder image')
-
-    //hr(class="featurette-divider")
-    //div(class="row featurette")
-      div(class="col-md-7 col-md-push-5")
-        h2(class="featurette-heading") Oh yeah, it's that good.
-          span(class="text-muted") See for yourself.
-        p(class="lead") Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
-        div(class="col-md-5 col-md-pull-7")
-        img(class="featurette-image img-responsive center-block" data-src="holder.js/500x500/auto" alt="Generic placeholder image")
-    //hr(class="featurette-divider")
-
-    .row.featurette
-      .col-md-7.col-md-push-5
-        h2.featurette-heading
-          | Les avantages ! 
-          span.text-muted Ils sont nombreux.
-        p.lead
-          | Nous vous permettons de trouver une personne à proximité, de plus, n'étant pas un site de professionnel, les tarifs se gèrent entre voisins et sont donc beaucoup plus intéressants.
-      .col-md-5.col-md-pull-7
-        video(src='#', controls='', poster='images/style/video.jpg', width='455', autoplay='1')
 
   .container.marketing
     .row
@@ -112,14 +64,14 @@ block content
         img.img-circle(src='images/style/homme-souriant.jpg', alt='Generic placeholder image', width='140', height='140')
         h2 François C.
         p
-          | Après avoir cherché un voisin, je me suis rendu compte que mon voisin de palier utilisait ce site, nous nous sommes mis d'accord et il a pu m'aider. Très sympa, je pense qu'une amitié vient de naître, je recommande !
+          | "Après avoir cherché un voisin, je me suis rendu compte que mon voisin de palier utilisait ce site, nous nous sommes mis d'accord et il a pu m'aider. Très sympa, je pense qu'une amitié vient de naître, je recommande !"
         p
           a.btn.btn-default(href='#', role='button' disabled="disabled") Détails
       .col-lg-4
         img.img-circle(src='images/style/femme-souriante2.jpg', alt='Generic placeholder image', width='140', height='140')
         h2 Geneviève L.
         p
-          | Vivant seule et n'ayant pas beaucoup de famille, ce site m'apporte beaucoup, merci.
+          | "Vivant seule et n'ayant pas beaucoup de famille, ce site m'apporte beaucoup, merci."
         p
           a.btn.btn-default(href='#', role='button' disabled="disabled") Détails
 
