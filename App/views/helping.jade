@@ -1,0 +1,15 @@
+extends ../layout
+
+
+block content
+
+    h1.
+        Propositions d'aide
+    p Utilisateur: #{givehelp.help_type}
+    p Type d'aide: #{givehelp.help_type} 
+    p Compétences: #{givehelp.skills}
+    p Rayon d'action: #{givehelp.scope} Kilomètre(s)
+    p Temps de diaponibilité: #{givehelp.time} Heure(s)
+    p Description: #{givehelp.description}
+    p Date: #{givehelp.date}
+    p Date de création de l'annonce #{givehelp.createdOn}
